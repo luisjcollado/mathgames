@@ -1,0 +1,67 @@
+#:kivy 1.0.9
+
+<Tablero>:
+    orientation: "vertical"
+
+    BoxLayout:
+        orientation:"horizontal"
+        size_hint_y: .2
+        
+
+        Label:
+            id: nivel
+            font_size: 50
+            text: "Nivel: {}".format(root.nivel)
+
+        Label:
+            id: marcador
+            font_size: 50
+            text: "{}".format(root.puntuacion)
+
+        Label:
+            id: maximo
+            font_size: 50
+            text: "567"
+
+    ProgressBar:
+        id: tiempo
+        size_hint_y: .05
+        max: 1000
+        value: root.tiempo
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_y: 0.40
+        
+        Label:
+            id: desafio
+            font_size: 150
+            text: "{} X {}".format(root.mult1,root.mult2)
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_y: .35
+        spacing: 10
+        padding: 10
+
+        Button:
+            id: resp1
+            font_size: 60
+            text: "{}".format(root.result1)
+            on_release: root.comprobar_resultado(root.result1)
+
+        Button:
+            id: resp2
+            font_size: 60
+            text: "{}".format(root.result2)
+            on_release: root.comprobar_resultado(root.result2)
+
+        Button:
+            id: resp3
+            font_size: 60
+            text: "{}".format(root.result3)
+            on_release: root.comprobar_resultado(root.result3)
+
+        
+
+    
