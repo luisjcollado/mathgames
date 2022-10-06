@@ -1,11 +1,94 @@
 #:kivy 1.0.9
 
+MenuPrincipal:
+#Desafio_Matematicas_fin:
+
+<MenuPrincipal>:
+    orientation: "vertical"
+    Label:
+        text: "MATEMÁTICAS 6º PRIMARIA"
+        size_hint: 1,.2
+        font_size: "45dp"
+        
+
+    RelativeLayout:
+        canvas.before:
+            Color:
+                rgb: .8,.8,.8
+            Rectangle:
+                size: self.size
+
+        Button:
+            text: "DESAFIO MULTIPLICACIÓN"
+            size_hint: .5,None
+            height: dp(80)
+            pos_hint:{'center_x':.5,"center_y":.5}
+            on_release: app.cargar_desafio_multiplicacion()
+        
+        
+            
+            
+
+        
+            
+
+<Desafio_matematicas_intro>:
+    orientation: 'horizontal'
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "imagenes/cuadernoAnillas.jpg"
+
+    
+    Label:
+        size_hint_x: .5
+        text: "[size=30][b]¡Desafio multiplicación![/b][/size]\n\n" + root.texto
+        size_hint_y: None
+        font_size: 25
+        text_size: self.width-dp(40),None
+        height: self.texture_size[1]
+        halign: 'center'
+        markup: True
+        color: .3,.31,.75,1
+        pos_hint:{"top":.9}
+
+    RelativeLayout:
+        size_hint_x: .5
+
+        Label:
+            text: root.texto2
+            size_hint_y: None
+            font_size: 35
+            text_size: self.width-dp(40),None
+            height: self.texture_size[1]
+            halign: 'center'
+            pos_hint:{"y":.6}
+            color: .3,.31,.75,1
+        
+        
+
+        Button:
+            text:"Comenzar el desafío"
+            on_release: root.iniciar_desafio()
+            font_size: 25
+            
+            size_hint: .8,.1
+            pos_hint:{"center_x":.5,"y":.1}
+
 <Tablero>:
+
     orientation: "vertical"
 
     BoxLayout:
         orientation:"horizontal"
         size_hint_y: .2
+
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "imagenes/chapa.jpg"
         
 
         Label:
@@ -19,9 +102,9 @@
             text: "{}".format(root.puntuacion)
 
         Label:
-            id: maximo
+            id: record
             font_size: 50
-            text: "567"
+            text: "{}".format(root.record)
 
     ProgressBar:
         id: tiempo
@@ -32,6 +115,11 @@
     BoxLayout:
         orientation: "horizontal"
         size_hint_y: 0.40
+        canvas.before:
+            Rectangle:
+                pos : self.pos
+                size: self.size
+                source: "imagenes/gradiente.jpg"
         
         Label:
             id: desafio
@@ -61,6 +149,44 @@
             font_size: 60
             text: "{}".format(root.result3)
             on_release: root.comprobar_resultado(root.result3)
+
+
+<Desafio_Matematicas_fin>:
+
+    AnchorLayout:
+        anchor_x:"center"
+        anchor_y: "top"
+
+        Label:
+            font_size: dp(40)
+            text: "[color=aa2222]¡¡Juego Finalizado!![/color]"
+            size_hint: 0.5,.2
+            markup: True
+            halign: "center"
+            
+    AnchorLayout:
+        anchor_x:"center"
+        anchor_y:"center"
+        Label:
+            font_size: dp(30)
+            text: root.resultado
+            markup: True
+            halign: "center"
+
+    AnchorLayout:
+        anchor_x:"center"
+        anchor_y:"bottom"
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: .7,.1
+            Button:
+                font_size: dp(25)
+                text:"Jugar de nuevo"
+                on_release: root.cargar_juego(app)
+            Button:
+                font_size: dp(25)
+                text:"Menú"
+                on_release: root.cargar_menu(app)
 
         
 
