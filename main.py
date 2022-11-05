@@ -1,3 +1,5 @@
+__version__ = "1.0.3"
+
 from ast import Num
 from tokenize import String
 from kivy.app import App
@@ -17,7 +19,7 @@ import shelve
 
 
 
-logros = {1:(20,.7),2:(40,.7),3:(80,.6),4:(120,.6),5:(200,.5),6:(300,.5),7:(400,.4),8:(500,.4),9:(600,.3),10:(99999999999999,.2)}
+logros = {1:(20,.7),2:(40,.7),3:(80,.7),4:(120,.7),5:(200,.7),6:(350,.7),7:(600,.7),8:(750,.7),9:(900,.6),10:(1000,.5),11:(1100,.4),12:(1200,.3),13:(1300,.2),14:(99999999999999,.12)}
 
 class Desafio_matematicas_intro(BoxLayout):
     texto = StringProperty("Estás a punto de iniciar el desafío de matemáticas, "\
@@ -58,8 +60,9 @@ class Tablero(BoxLayout):
         super().__init__(**kwargs)
         self.app = app
         self.nivel = kwargs["nivel"] if "nivel" in kwargs.keys() else 1
-        self.sonido_acierto = SoundLoader.load("./assets/sound9.mp3")
+        self.sonido_acierto = SoundLoader.load("./assets/sound114.wav")
         self.sonido_fallo = SoundLoader.load("./assets/sound94.wav")
+        self.sonido_subir_nivel = SoundLoader.load("./assets/subirNivel.wav")
         self.velocidad = logros[self.nivel][1]
         self.record = record
 
@@ -69,7 +72,6 @@ class Tablero(BoxLayout):
         self.mult1,self.mult2 = self._generar_multiplicacion()
         self.correcto = self.mult1*self.mult2
         resultados.append(self.correcto)
-
         resultados.append((self.mult1+1)*self.mult2)
         resultados.append((self.mult1-1)*+self.mult2)
 
@@ -90,11 +92,11 @@ class Tablero(BoxLayout):
             self.sonido_acierto.play()
             self.puntuacion += self.nivel
             self.tiempo -= 50
-            if self.tiempo < 0: self.tiempo =0
-
+            if self.tiempo < 0: self.tiempo=0
             if self.puntuacion > logros[self.nivel][0]:
                 self.nivel += 1
                 self.velocidad = logros[self.nivel][1]
+                self.sonido_subir_nivel.play()
 
                 self.reloj.cancel()
                 
@@ -109,8 +111,10 @@ class Tablero(BoxLayout):
 
 
     def _generar_multiplicacion(self):
-        max = self.nivel * 2 if self.nivel<5 else 9
-        mult1 = random.randint(2,max)
+        if self.nivel < 9:
+            mult1 = self.nivel+1
+        else:
+            mult1 = random.randint(2,9)
         mult2 = random.randint(2,9)
         return mult1,mult2
 
@@ -118,7 +122,6 @@ class Tablero(BoxLayout):
         self.tiempo += 10
         if self.tiempo > 1000: 
             self.reloj.cancel()
-            print("final")
             self.app.cargar_pantalla(Desafio_Matematicas_fin(self.puntuacion,self.record))
           
 
@@ -171,6 +174,17 @@ class MultiApp(App):
     def cargar_pantalla(self,widget):
         self.root.clear_widgets()
         self.root.add_widget(widget)
+
+    def on_stop(self):
+        return True
+
+    def on_pause(self):
+        return super().on_pause()
+
+    def on_start(self):
+        return super().on_start()
+
+
 
 
  
